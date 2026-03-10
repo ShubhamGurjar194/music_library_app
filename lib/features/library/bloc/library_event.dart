@@ -7,7 +7,6 @@ abstract class LibraryEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Load first page of tracks for a section (letter a-z, 0-9).
 class LibraryLoadSection extends LibraryEvent {
   const LibraryLoadSection(this.letter);
   final String letter;
@@ -16,7 +15,6 @@ class LibraryLoadSection extends LibraryEvent {
   List<Object?> get props => [letter];
 }
 
-/// Load next page for a section (infinite scroll).
 class LibraryLoadMoreSection extends LibraryEvent {
   const LibraryLoadMoreSection(this.letter);
   final String letter;
@@ -25,7 +23,6 @@ class LibraryLoadMoreSection extends LibraryEvent {
   List<Object?> get props => [letter];
 }
 
-/// User scrolled and a section header became visible — trigger load if needed.
 class LibrarySectionVisibilityChanged extends LibraryEvent {
   const LibrarySectionVisibilityChanged(this.letter);
   final String letter;
@@ -34,7 +31,6 @@ class LibrarySectionVisibilityChanged extends LibraryEvent {
   List<Object?> get props => [letter];
 }
 
-/// Search with query (debounced in UI).
 class LibrarySearch extends LibraryEvent {
   const LibrarySearch(this.query);
   final String? query;
@@ -43,12 +39,10 @@ class LibrarySearch extends LibraryEvent {
   List<Object?> get props => [query];
 }
 
-/// Load more search results (infinite scroll in search mode).
 class LibrarySearchLoadMore extends LibraryEvent {
   const LibrarySearchLoadMore();
 }
 
-/// Clear search and show sectioned list again.
 class LibraryClearSearch extends LibraryEvent {
   const LibraryClearSearch();
 }

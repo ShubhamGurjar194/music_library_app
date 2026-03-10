@@ -7,7 +7,6 @@ import '../../../data/repositories/track_repository.dart';
 part 'library_event.dart';
 part 'library_state.dart';
 
-/// Section keys for grouping: a-z and 0-9.
 const List<String> sectionOrder = [
   'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
   'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',

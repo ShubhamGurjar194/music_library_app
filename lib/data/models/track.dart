@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-/// Track model matching Deezer-style API response.
 class Track extends Equatable {
   const Track({
     required this.id,
@@ -20,7 +19,6 @@ class Track extends Equatable {
   final String? previewUrl;
   final String? coverUrl;
 
-  /// TRACK_ID for display (per requirements).
   String get trackId => id.toString();
 
   factory Track.fromJson(Map<String, dynamic> json) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-/// Shown at the end of a section; when visible, calls [onLoadMore].
 class LoadMoreSentinel extends StatelessWidget {
   const LoadMoreSentinel({
     super.key,

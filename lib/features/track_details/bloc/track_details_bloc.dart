@@ -38,7 +38,6 @@ class TrackDetailsBloc extends Bloc<TrackDetailsEvent, TrackDetailsState> {
         rethrow;
       }
 
-      // Load lyrics separately; never fail the whole screen if lyrics API fails
       try {
         lyrics = await _repository.getTrackLyrics(trackId);
       } on TrackRepositoryException catch (e) {
@@ -46,7 +45,7 @@ class TrackDetailsBloc extends Bloc<TrackDetailsEvent, TrackDetailsState> {
           emit(TrackDetailsState.error(e.message));
           return;
         }
-        lyrics = null; // e.g. server error on lyrics endpoint – still show details
+        lyrics = null;
       } catch (_) {
         lyrics = null;
       }
@@ -58,7 +57,6 @@ class TrackDetailsBloc extends Bloc<TrackDetailsEvent, TrackDetailsState> {
         emit(const TrackDetailsState.error('Track not found'));
         return;
       }
-      // Prefer lyrics from dedicated lyrics API; fall back to lyrics in details response
       final mergedLyrics = (lyrics != null && lyrics.isNotEmpty)
           ? lyrics
           : details.lyrics;

@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-/// Extended track details (API-B) and lyrics (API-C) for the details screen.
 class TrackDetails extends Equatable {
   const TrackDetails({
     required this.trackId,
@@ -22,7 +21,6 @@ class TrackDetails extends Equatable {
   final String? coverUrl;
   final String? lyrics;
 
-  /// Tries common keys and nested objects (e.g. lyrics.body) for lyrics.
   static String? _lyricsFromJson(Map<String, dynamic> json) {
     const keys = ['lyrics', 'lyrics_body', 'body', 'text', 'lyric', 'content', 'message', 'lyric_text'];
     for (final key in keys) {
@@ -37,7 +35,6 @@ class TrackDetails extends Equatable {
   }
 
   factory TrackDetails.fromJson(Map<String, dynamic> json) {
-    // Unwrap if response is { "track": {...} } or { "data": {...} }
     final data = (json['track'] is Map
             ? Map<String, dynamic>.from(json['track'] as Map)
             : null) ??

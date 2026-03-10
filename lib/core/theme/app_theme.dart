@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 
-/// Music library themed colors and styling.
-/// Dark, warm aesthetic inspired by vinyl and listening rooms.
 class AppTheme {
   AppTheme._();
 
-  // Breakpoints for responsive layout
   static const double breakpointTablet = 600;
   static const double breakpointDesktop = 900;
 
@@ -17,7 +14,6 @@ class AppTheme {
     return MediaQuery.sizeOf(context).width >= breakpointDesktop;
   }
 
-  /// Horizontal padding that scales with screen width
   static double horizontalPadding(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     if (width >= breakpointDesktop) return 32;
@@ -25,14 +21,13 @@ class AppTheme {
     return 16;
   }
 
-  /// Max content width for readability on large screens
   static const double maxContentWidth = 720;
 
   static ThemeData get darkTheme {
     const Color surfaceDark = Color(0xFF0F0F12);
     const Color surfaceElevated = Color(0xFF1A1A1F);
     const Color surfaceCard = Color(0xFF222228);
-    const Color accent = Color(0xFFE8B86D); // Warm amber / vinyl gold
+    const Color accent = Color(0xFFE8B86D);
     const Color accentVariant = Color(0xFFC99B4A);
     const Color onSurface = Color(0xFFE8E6E3);
     const Color onSurfaceVariant = Color(0xFF9E9B97);

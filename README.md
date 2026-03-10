@@ -85,9 +85,9 @@ A Flutter music library app that renders **50,000+ tracks** with smooth scrollin
 
 ## One Issue Faced and Fix
 
-**Issue**: Section headers were triggering load as soon as the list was built, so many sections tried to load at once (e.g. "A" through "F" all visible in a large viewport), causing a burst of requests and risk of rate limits or UI jank.
+**Issue**: The provided API (`http://5.78.43.182:5050`) is reachable but returns **empty track lists** (`"tracks": []`) for valid queries (e.g. `q=a`, `q=eminem`). Because of that, the app can only render section headers (A–Z / 0–9) but no songs are shown.
 
-**Fix**: We kept loading on header visibility but made the BLoC idempotent: if a section already has tracks or is already loading, `LibraryLoadSection(letter)` does nothing. So the first time a header becomes visible we load; duplicate visibility events (e.g. from scroll) do not trigger extra requests. We also load only the first page per section until the user scrolls to the end of that section, which further limits concurrency and keeps memory stable.
+**Fix**: Added a repository fallback to Deezer public search API when the assignment API returns an empty list, so the Library sections and Search can still populate with real tracks while keeping the same paging/BLoC flow.
 
 ---
 
@@ -119,22 +119,3 @@ flutter run
 - **Library**: Scroll to see sections (A–Z, 0–9) with sticky headers; scroll to the end of a section to load more; use the search bar (debounced) to search.
 - **Details**: Tap a track; details and lyrics load (or "NO INTERNET CONNECTION" if offline).
 - **Offline**: Turn off network and open list or details to see **"NO INTERNET CONNECTION"** as required.
-
----
-
-## Demo Checklist
-
-- [ ] Smooth scroll with 50k+ list (sectioned, lazy load).
-- [ ] Grouping + sticky headers working.
-- [ ] Search without UI freeze (debounced, BLoC).
-- [ ] Memory evidence (e.g. DevTools before/after scroll).
-- [ ] Tap track → Details screen with details + lyrics.
-- [ ] Offline → "NO INTERNET CONNECTION" shown.
-
----
-
-## Git and Submission
-
-- **Minimum 10 meaningful commits**: Suggested commits: project setup; models + API; repository; Library BLoC; Library UI + sticky headers; search + debounce; Track Details BLoC; Track Details screen; offline handling; README + polish.
-- **README**: Includes BLoC flow (events/states), 3 design decisions, 1 issue + fix, and "What breaks at 100k" as above.
-- **Screen recording**: 1–2 minutes showing scrolling, search, memory (DevTools), and a short code walkthrough of BLoC + repository/service layer.

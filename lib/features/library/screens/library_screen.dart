@@ -31,7 +31,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
   }
 
   void _onSearchChanged() {
-    setState(() {}); // Rebuild so suffixIcon (clear button) updates.
+    setState(() {});
     _searchDebounce?.cancel();
     _searchDebounce = Timer(const Duration(milliseconds: 400), () {
       if (context.mounted) {

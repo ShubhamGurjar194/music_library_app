@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-/// Persistent sticky header for a section letter. Triggers [onVisible] when first visible.
 class SectionHeaderDelegate extends SliverPersistentHeaderDelegate {
   SectionHeaderDelegate({
     required this.letter,

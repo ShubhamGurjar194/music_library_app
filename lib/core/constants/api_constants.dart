@@ -1,4 +1,3 @@
-/// API base URL and endpoint constants for Deezer Track Fetcher.
 class ApiConstants {
   ApiConstants._();
 
@@ -9,7 +8,6 @@ class ApiConstants {
   static const String tracksAllPath = '/tracks/all';
   static const String deezerSearchPath = '/search';
 
-  /// Track details and lyrics - same server; common REST patterns.
   static String trackDetailsPath(String trackId) => '/tracks/$trackId';
   static String trackLyricsPath(String trackId) => '/tracks/$trackId/lyrics';
 }
