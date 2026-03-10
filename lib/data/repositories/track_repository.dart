@@ -75,8 +75,19 @@ class TrackRepository {
               .where((t) => t.id > 0)
               .toList()
           : <Track>[];
-      final hasMore = tracks.length >= limit;
-      return (tracks: tracks, hasMore: hasMore);
+
+      // Backend currently returns empty arrays for valid queries.
+      // Fallback to Deezer public search API so the app remains functional.
+      if (tracks.isNotEmpty) {
+        final hasMore = tracks.length >= limit;
+        return (tracks: tracks, hasMore: hasMore);
+      }
+
+      return await _getTracksFromDeezer(
+        query: query.isEmpty ? 'a' : query,
+        index: index,
+        limit: limit.clamp(1, 50),
+      );
     } on http.ClientException {
       throw TrackRepositoryException(
         'NO INTERNET CONNECTION',
@@ -85,6 +96,46 @@ class TrackRepository {
     } on FormatException {
       throw TrackRepositoryException('Invalid response from server');
     }
+  }
+
+  Future<({List<Track> tracks, bool hasMore})> _getTracksFromDeezer({
+    required String query,
+    required int index,
+    required int limit,
+  }) async {
+    final deezerUri = Uri.parse(ApiConstants.deezerBaseUrl + ApiConstants.deezerSearchPath).replace(
+      queryParameters: {
+        'q': query,
+        'index': index.toString(),
+        'limit': limit.toString(),
+      },
+    );
+
+    final response = await _client.get(deezerUri).timeout(
+      const Duration(seconds: 15),
+      onTimeout: () => throw TrackRepositoryException(
+        'NO INTERNET CONNECTION',
+        offline: true,
+      ),
+    );
+
+    if (response.statusCode != 200) {
+      throw TrackRepositoryException('Server error: ${response.statusCode}');
+    }
+
+    final body = jsonDecode(response.body);
+    if (body is! Map) return (tracks: <Track>[], hasMore: false);
+    final map = Map<String, dynamic>.from(body);
+    final data = map['data'];
+    final tracks = (data is List)
+        ? data
+            .map((e) => Track.fromJson(Map<String, dynamic>.from(e as Map)))
+            .where((t) => t.id > 0)
+            .toList()
+        : <Track>[];
+
+    final hasMore = map['next'] is String ? true : tracks.length >= limit;
+    return (tracks: tracks, hasMore: hasMore);
   }
 
   /// Fetch track details (API-B style). Uses same server: GET /tracks/:id if available.
